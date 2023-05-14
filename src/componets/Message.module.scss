@@ -1,0 +1,18 @@
+.wrapper{
+  display: grid;
+  grid-template-rows: 1fr auto;
+  height: 100%;
+  padding: 5rem 0;
+  box-sizing: border-box;
+}
+
+.messages{
+  display: flex;
+  flex-direction: column;
+}
+
+.item{
+  display: flex;
+  justify-content: flex-end;
+  text-align: right;
+}

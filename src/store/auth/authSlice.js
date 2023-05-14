@@ -5,7 +5,7 @@ const initialState = {
   token: null,
 }
 
-export const counterSlice = createSlice({
+export const authrSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
@@ -13,9 +13,13 @@ export const counterSlice = createSlice({
       state.id = id;
       state.token = token;
     },
+    logout: (state) => {
+      state.id = null;
+      state.token = null;
+    },
   },
 })
 
-export const { login } = counterSlice.actions
+export const { login, logout } = authrSlice.actions
 
-export default counterSlice.reducer
+export default authrSlice.reducer
