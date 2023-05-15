@@ -4,12 +4,13 @@ import { useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../hooks/useAuth';
 import { logout } from '../store/auth/authSlice';
-import { setPhone } from '../store/message/messageSlice';
+import { setPhone, addDialog, resetMessage, initDialog } from '../store/message/messageSlice';
 
-import Message from '../componets/message';
+import Message from '../componets/Message';
 
 
-import './index.scss';
+import './global.scss';
+import style from "./index.module.scss"
 
 const Index = () => {
   const isAuth = useAuth();
@@ -24,46 +25,65 @@ const Index = () => {
 
   const logoutHandler = () => {
     dispatch(logout());
+    dispatch(resetMessage())
   };
 
-  const { phone } = useSelector(state => state.message);
-  const [start, setStart] = useState(false);
+
+  const [dialog, setDialog] = useState('');
+  const { dialogs } = useSelector(state => state.message);
 
   const onChangePhone = (e) => {
     if (typeof Number(e.target.value) !== 'number') return;
     if (e.target.value.includes('+') || e.target.value.includes('-')) return;
-    dispatch(setPhone(e.target.value));
+    setDialog(e.target.value)
   };
 
-  const startDialogHandler = () => {
-    setStart(true);
+  const addDialogHandler = () => {
+    dispatch(addDialog(dialog))
+    setDialog('')
   };
 
   if (!isAuth) return <></>;
 
   return (
     <>
-      {!start &&
-        <div style={{ display: "flex", flexDirection: "column" }}>
+      <div className={style.wrapper}>
+        <div className={style.users}>
           <label htmlFor="messagePhone">Введите номер собеседника</label>
           <input
             id="messagePhone"
             type="text"
             placeholder="79999999999"
-            value={phone}
+            value={dialog}
             onChange={(e) => onChangePhone(e)}
 
           />
           <button
-            disabled={phone.length === 0}
-            onClick={startDialogHandler}
+            disabled={dialog.length === 0}
+            onClick={addDialogHandler}
           >
-            Начать общение
+            Добавить
           </button>
+          <div className={style.dialogs}>
+            {dialogs.map(it => {
+              return (
+                <button
+                  key={it}
+                  onClick={() => {
+                    dispatch(setPhone(it));
+                    dispatch(initDialog());
+                  }}
+                >
+                  {it}
+                </button>
+              )
+            })}
+          </div>
         </div>
-      }
-      {start && <Message />}
-
+        <div className={style.message}>
+          <Message />
+        </div>
+      </div>
       <button
         style={{ position: "absolute", top: "2%", right: "2%" }}
         onClick={logoutHandler}

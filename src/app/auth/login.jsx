@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { login } from "../../store/auth/authSlice";
 
+import style from "./login.module.scss"
+
 
 const Login = () => {
   const isAuth = useAuth();
@@ -16,8 +18,8 @@ const Login = () => {
   }, [isAuth]);
   const dispatch = useDispatch();
   const DEFAULT_VALUE_INPUT = '';
-  const [id, setId] = useState(`1101819972`);
-  const [token, setToken] = useState(`62ad67c3a7b1482d9d302b7156a3dcbcabb8d99d73f74872b3`);
+  const [id, setId] = useState(DEFAULT_VALUE_INPUT);
+  const [token, setToken] = useState(DEFAULT_VALUE_INPUT);
   const onChangeId = (value) => {
     setId(value);
   };
@@ -33,7 +35,7 @@ const Login = () => {
   if (isAuth) return <></>;
 
   return (
-    <>
+    <div className={style.wrapper}>
       <input
         type="text"
         placeholder="Введите ваш id"
@@ -52,7 +54,7 @@ const Login = () => {
       >
         Авторизоваться
       </button>
-    </>
+    </div>
   )
 };
 

@@ -1,0 +1,27 @@
+.wrapper{
+  display: grid;
+  height: 100%;
+  gap: 10px;
+  grid-template-columns: 1fr 1fr;
+}
+
+.users{
+  display: flex;
+  flex-direction: column;
+  padding: 5rem 0;
+}
+
+.message{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dialogs {
+  overflow-y: scroll;
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  height: 100%;
+}
